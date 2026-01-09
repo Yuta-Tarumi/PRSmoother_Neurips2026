@@ -1,0 +1,26 @@
+
+[model]
+architecture = VisionTransformer
+posterior = flow
+noisy_dynamics = False
+latent_dim = 16384
+lr = 3e-4
+boost_factor = 50.0
+logstd_factor = 3.0
+train_F = F
+train_Q = F
+train_R	= F
+init_obs_var = 1.0
+init_F = 0.0
+norm_factor = 10.0
+sigma_0 = 1.0
+batch = 3
+epochs = 4
+seed = 1
+
+[data]
+observation = full
+noise = 1.0
+bias_seed = 42
+bias_factor = 3.0
+

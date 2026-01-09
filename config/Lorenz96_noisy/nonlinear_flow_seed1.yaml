@@ -1,0 +1,23 @@
+
+[model]
+noisy_dynamics = False
+architecture = Conv1D_flow
+posterior = flow_RealNVP
+lr = 2e-4
+boost_factor = 500.0
+logstd_factor = 100.0
+init_F = 8.0
+init_obs_var = 1.0
+train_F = F
+train_Q = F
+train_R	= F
+norm_factor = 5.0
+sigma_0 = 10.0
+batch = 50
+epochs = 400
+seed = 1
+
+[data]
+observation = full_nonlinear
+noise = 1.0
+bias_factor = 0.0

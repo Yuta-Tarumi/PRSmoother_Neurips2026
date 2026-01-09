@@ -1,0 +1,27 @@
+
+[model]
+architecture = Conv1D_flow
+posterior = flow_RealNVP
+lr = 5e-4
+latent_dim = 4
+boost_factor = 10.0
+logstd_factor = 10.0
+init_F = 8.0
+train_F = F
+train_Q = F
+train_R = F
+init_obs_var = 9.0
+norm_factor = 10.0
+sigma_0 = 2.0
+batch = 100
+epochs = 100
+seed = 1
+
+[data]
+root = /work/go84/o84000/training_data/Lorenz96_4dim/train
+root_test = /work/go84/o84000/training_data/Lorenz96_4dim/test
+observation = square
+noise = 3.0
+bias_factor = 0.0
+steps = 10
+
