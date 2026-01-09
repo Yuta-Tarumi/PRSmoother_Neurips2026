@@ -15,7 +15,6 @@ $ pip3 install -r requirements.txt
 ## Data generation
 
 For the Lorenz96 (40D) and Kolmogorov flow (16,384D) experiments, you need to generate the training and test data in advance. The data generation code is located under `codes_datagen/`. The code assumes that the generated data are stored under `training_data/`. You can change this by setting `root` in the dataset class.
-For Lorenz96 (40D) and Kolmogorov flow (16,384D) experiments, you need to generate the training and testing data in advance. Code for data generation is stored under `codes_datagen`. The code assumes that the generated data will be stored under `training_data/` and you can modify this by specifying `root` in the dataset class.
 
 ### Lorenz96 (4D)
 For the Lorenz96 (4D) experiment, no data generation step is required before training.
@@ -24,25 +23,25 @@ For the Lorenz96 (4D) experiment, no data generation step is required before tra
 ```
 # train data: INDEX=0-9999; each file contains 1,024 initial conditions; we used 10,000 files in our paper
 $ INDEX=0
-$ python Lorenz96_datagen.py --index "${INDEX}" --split train
+$ python codes_datagen/Lorenz96_datagen.py --index "${INDEX}" --split train
 
 # test data: INDEX=1000000; we used 1 file in our paper
 $ INDEX=1000000
-$ python Lorenz96_datagen.py --index "${INDEX}" --split test
+$ python codes_datagen/Lorenz96_datagen.py --index "${INDEX}" --split test
 ```
 
 ### Kolmogorov flow
 ```
 # train data: INDEX=0-29999; each file contains 96 initial conditions; we used 30,000 files in our paper
 $ INDEX=0
-$ python Kolmogorov.py --index "${INDEX}" --split train
+$ python codes_datagen/Kolmogorov.py --index "${INDEX}" --split train
 
 # test data: INDEX=1000000; we used 1 file in our paper
 $ INDEX=1000000
-$ python Kolmogorov.py --index "${INDEX}" --split test
+$ python codes_datagen/Kolmogorov.py --index "${INDEX}" --split test
 
 # bias generation
-$ python Kolmogorov_bias_generator.py
+$ python codes_datagen/Kolmogorov_bias_generator.py
 ```
 
 ## Run experiments
