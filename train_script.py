@@ -1,26 +1,3 @@
-"""train_script.py
-
-Train the Physics‑Rollout Smoother on Lorenz‑96 trajectories and
-save per‑batch metrics into plain‑text files (every 16 batches).
-
-Usage example
--------------
-    python train_script.py \
-        --config  config/Lorenz96/baseline.yaml \
-        --epochs  20 \
-        --batch   64 \
-        --seed    42
-
-For a config located at
-    config/<DataSetName>/<cfg_name>.yaml
-this script writes
-    output/<DataSetName>/<cfg_name>/ELBO.txt
-    output/<DataSetName>/<cfg_name>/F.txt
-    output/<DataSetName>/<cfg_name>/sigma_dyn.txt
-where <DataSetName> is the parent directory of the config file
-(e.g. "Lorenz96") and <cfg_name> is the stem of the config file
-(e.g. "baseline").  Each metric is appended once every 16 batches.
-"""
 
 from __future__ import annotations
 
@@ -34,9 +11,6 @@ import numpy as np
 import torch
 from torch.cuda.amp import autocast
 from torch.utils.data import DataLoader
-#import transformer_engine.pytorch as te
-#from transformer_engine.common.recipe import Format, DelayedScaling
-#fp8_recipe = DelayedScaling(fp8_format=Format.HYBRID, amax_history_len=16)
 from tqdm.auto import tqdm
 from torch.optim.lr_scheduler import LinearLR, ExponentialLR, SequentialLR
 torch.backends.cuda.matmul.allow_tf32 = True
@@ -89,8 +63,8 @@ def main():
 
     steps         = cfg.getint("data", "steps", fallback=50)
     print(f"{bias_factor=}")
-    root          = cfg.get("data", "root", fallback=f"/work/go84/o84000/training_data/{dataset_name}/train")
-    root_test     = cfg.get("data", "root_test", fallback=f"/work/go84/o84000/training_data/{dataset_name}/test")
+    root          = cfg.get("data", "root", fallback=f"training_data/{dataset_name}/train")
+    root_test     = cfg.get("data", "root_test", fallback=f"training_data/{dataset_name}/test")
     method        = cfg.get("model", "method", fallback="PR-Smoother")
     noisy_dyn     = cfg.get("model", "noisy_dynamics", fallback="False")
     latent_dim    = cfg.getint("model", "latent_dim", fallback=40)
@@ -198,12 +172,6 @@ def main():
         else:
             print(f"undefined {noisy_dyn=}")
             return 1 
-        """
-        if dataset_name in ["Lorenz96_noisy"]:
-            noisy = True
-        else:
-            noisy = False
-        """
         model  = PRSmoother(
             dataset=dataset,
             latent_dim=latent_dim,
@@ -281,7 +249,6 @@ def main():
         decay_iters  = int(30000*0.95*epochs//batch)       # epochs left after warm-up
         final_factor = 0.1
 
-    # 1) linear warm-up  : 0 → 1 × lr over `warmup_epochs` steps
     warmup_sched = LinearLR(
         optim,
         start_factor=0.001,        # 0 means lr == 0 on the very first step
@@ -294,7 +261,6 @@ def main():
 
     print(f"{warmup_epochs=}, {warmup_iters=}, {decay_iters=}")
 
-    # 3) chain them together
     scheduler = SequentialLR(
         optim,
         schedulers=[warmup_sched, decay_sched],
@@ -306,7 +272,6 @@ def main():
     ckpt_dir = Path("output") / dataset_name / cfg_name / "checkpoints"
     ckpt_dir.mkdir(parents=True, exist_ok=True)
 
-    # 4) prepare output files ----------------------------------------------
     out_dir = Path("output") / dataset_name / cfg_name
     out_dir.mkdir(parents=True, exist_ok=True)
     output_dir = Path(f"{out_dir}/outputs")

@@ -148,11 +148,11 @@ def _parse_args():
     p.add_argument("--split", choices=["train", "test"],
                    help='Dataset split; defaults to "test" when --index==1_000_000, else "train".')
     p.add_argument("--steps", type=int, default=4400, help="Total dt-steps AFTER spin-up (default 4400).")
-    p.add_argument("--save_every", type=int, default=20, help="Save every N dt-steps (default 20 → 0.1).")
+    p.add_argument("--save_every", type=int, default=10, help="Save every N dt-steps (default 10 → 0.1).")
     p.add_argument("--integrator", choices=["rk4"], default="rk4",
                    help="PyTorch dynamics integrator to use (default rk4).")
     p.add_argument("--root", type=pathlib.Path,
-                   default=pathlib.Path("/data/RB250005/Kolmogorov"),
+                   default=pathlib.Path("training_data/Kolmogorov"),
                    help="Root directory containing drag_all.txt and output folders.")
     p.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu",
                    help='torch device, e.g. "cuda", "cuda:0", or "cpu".')

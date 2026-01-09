@@ -5,25 +5,6 @@ from torch.utils.data import Dataset
 
 
 class Lorenz96Dataset(Dataset):
-    """
-    Dataset of Lorenz-96 trajectories.
-
-    Directory layout (40-D, precomputed)
-    ------------------------------------
-    /data/RB250005/Lorenz96/train/seed00{seed:05d}.npz
-
-    Each file stores a block of `block_size` trajectories:
-        data["x"].shape == (block_size, T, D)  # default (1024, 50, 40)
-
-    `__getitem__(i)` returns
-        • truth : (block_size, steps, D)
-        • obs   : (block_size, steps, D or D/4 depending on observation)
-
-    For 4-D experiments, if `generate_4d_online=True`, trajectories are
-    generated on-the-fly using Lorenz-96 dynamics instead of being loaded
-    from disk. Initial conditions u0 ~ N(0, 5^2) in each dimension.
-    """
-
     # ──────────────────────────────────────────────────────────────────────
     def __init__(self,
                  root: str,
@@ -57,7 +38,7 @@ class Lorenz96Dataset(Dataset):
         # In 4-D online mode we don't need it and we also avoid loading the file.
         if not self.generate_4d_online:
             self.bias = torch.tensor(
-                np.load("/work/go84/o84000/training_data/Lorenz96/offset.npy"),
+                np.load("training_data/Lorenz96/offset.npy"),
                 dtype=torch.float32,
             )
         else:
@@ -142,9 +123,6 @@ class Lorenz96Dataset(Dataset):
         """
         Generate a block of 4-D trajectories on-the-fly.
 
-        Initial condition:
-            u0 ~ N(0, 5^2)  (independent per dimension, per trajectory)
-
         Returns:
             truth : (block_size, steps, 4)
             obs   : (block_size, steps, 4)
@@ -178,7 +156,6 @@ class Lorenz96Dataset(Dataset):
         ) * self.noise_std
         noise = noise_full[:, t_slice, :]
 
-        # Observation operator: x^2 + noise  (same as old 4-D branch)
         obs = truth * truth + noise
 
         return truth, obs, D
@@ -211,7 +188,7 @@ class Lorenz96Dataset(Dataset):
 
             # Select the time window (keep this logic exactly as you want it)
             if self.steps == 1:
-                t_slice = slice(4, 5)   # use only t = 4
+                t_slice = slice(9, 10)   # use only t = 9
             else:
                 t_slice = slice(0, self.steps)  # use t = 0..steps-1
 

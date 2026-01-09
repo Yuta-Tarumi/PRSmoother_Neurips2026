@@ -1,20 +1,3 @@
-"""Lorenz-96 batched trajectory generator
-========================================
-• Each output file stores **1024 independent trajectories** (shape = 1024 × 50 × 40)  
-• File names follow  `seed{index:07d}.npz`
-    – index = 0  → seeds 0 … 1023  
-    – index = 1  → seeds 1024 … 2047  
-    – …  
-• Training batches:  index 0-9999   → 10 240 000 trajectories  
-  Test batch:        index 1000000  → seeds 1 024 000 000 … 1 024 001 023  
-• One Slurm job ≙ one *index*.  Use an array for the training set and
-  a single job for the test set (templates below).
-
-Physics & numerics (unchanged)
-------------------------------
-F = 8, Δt_int = 0.001 (RK4), snapshot spacing Δt_snap = 0.03 (30 steps),
-100 snapshots per trajectory (first 50 discarded → keep 50).
-"""
 
 from __future__ import annotations
 import argparse, os, pathlib, numpy as np
@@ -23,7 +6,7 @@ from typing import Tuple
 from tqdm import tqdm
 from models.dynamics.Lorenz96 import L96Dynamics, integrate_l96
 
-# ---------- Lorenz-96 dynamics (unchanged) ----------
+# ---------- Lorenz-96 dynamics ----------
 F = 8.0
 DT_INT = 0.003
 DT_SNAP = 0.03
@@ -33,7 +16,7 @@ N_VARS = 40
 TOTAL_SNAPS = 100
 SPINUP_SNAPS = 50
 TRAJ_LEN = TOTAL_SNAPS - SPINUP_SNAPS            # 50
-BATCH_SIZE = 1024                                # NEW
+BATCH_SIZE = 1024
 
 def advance_one_snapshot(x: torch.tensor) -> torch.tensor:
     return integrate_l96(x, F=torch.tensor(F), obs_dt=DT_SNAP, internal_dt=DT_INT)
@@ -82,8 +65,8 @@ def main():
                    help="Batch index (one per Slurm job)")
     p.add_argument("--split", type=str, choices=["train", "test"],
                    help="Dataset split.  If omitted, index 1e6 ⇒ test else train")
-    p.add_argument("--root", type=pathlib.Path, default=pathlib.Path("/data/RB250005"),
-                   help="Project data root (default: /data/RB250005/Lorenz96_noisy)")
+    p.add_argument("--root", type=pathlib.Path, default=pathlib.Path("training_data/Lorenz96_noisy"),
+                   help="Project data root (default: training_data/Lorenz96_noisy)")
     args = p.parse_args()
 
     split = args.split or ("test" if args.index == 1_000_000 else "train")

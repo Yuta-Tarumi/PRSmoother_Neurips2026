@@ -10,7 +10,7 @@ def observe_coarse(x: torch.Tensor) -> torch.Tensor:
 class KolmogorovDataset(Dataset):
     # ──────────────────────────────────────────────────────────────────────
     def __init__(self,
-                 root: str = "/work/go84/o84000/training_data/Kolmogorov/train",
+                 root: str = "training_data/Kolmogorov/train",
                  seeds: range | list | None = None,
                  bias_seed: int = 0,
                  observation: str = "full",
@@ -21,7 +21,7 @@ class KolmogorovDataset(Dataset):
         super().__init__()
         self.root = root
         self.seeds = list(seeds) if seeds is not None else list(range(16_384))
-        self.bias = torch.tensor(np.load(f"/work/go84/o84000/training_data/Kolmogorov/offset_seed{bias_seed}.npy"), dtype=torch.float32)
+        self.bias = torch.tensor(np.load(f"training_data/Kolmogorov/offset_seed{bias_seed}.npy"), dtype=torch.float32)
         self.observation = observation
         self.noise_std = float(noise_std)
         self.bias_factor = float(bias_factor)
