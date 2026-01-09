@@ -1,4 +1,6 @@
-# Physics-rollout smoother (PR-smoother) 
+# Physics-rollout smoother (PR-smoother)
+
+This codebase reproduces the experiments conducted in our submitted manuscript, "Physics Rollout Smoother (PR-Smoother): Model‑Based Amortized Variational Inference for Physical State-Space Models".
 
 ## Setup using Python virtualenv
 
