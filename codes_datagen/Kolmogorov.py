@@ -26,7 +26,7 @@ K_FORCE = 4
 DT = 5e-3
 SPIN_UP = 4_000
 KEEP_SNAPS = 10
-BATCH = 128
+BATCH = 96
 ALPHA = 0.05
 
 # ---------------- Helpers ----------------
