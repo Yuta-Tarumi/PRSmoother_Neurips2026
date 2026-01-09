@@ -93,7 +93,7 @@ def main():
         print(f"{dataset_name=}")
         dataset = "Lorenz96"
         warmup_epochs = 0.05
-        train_ds = Lorenz96Dataset(root=root, seeds=range(0, 10000), steps=50, observation=observation, block_size=1024, noise_std=noise_std, bias_factor=bias_factor)
+        train_ds = Lorenz96Dataset(root=root, seeds=range(0, 1), steps=50, observation=observation, block_size=1024, noise_std=noise_std, bias_factor=bias_factor)
         loader = DataLoader(train_ds, batch_size=batch, shuffle=True, persistent_workers=True,
                             num_workers=args.num_workers, pin_memory=True, collate_fn=collate_flatten)
         test_ds     = Lorenz96Dataset(root=root_test, seeds=range(1_000_000, 1_000_001), steps=50, observation=observation, block_size=1024, noise_std=noise_std, bias_factor=bias_factor)
@@ -104,7 +104,7 @@ def main():
         print(f"{dataset_name=}")
         dataset = "Lorenz96"
         warmup_epochs = 0.05
-        train_ds = Lorenz96Dataset(root=root, seeds=range(0, 10000), steps=50, observation=observation, block_size=1024, noise_std=noise_std, bias_factor=bias_factor)
+        train_ds = Lorenz96Dataset(root=root, seeds=range(0, 1), steps=50, observation=observation, block_size=1024, noise_std=noise_std, bias_factor=bias_factor)
         loader = DataLoader(train_ds, batch_size=batch, shuffle=True, persistent_workers=True,
                             num_workers=args.num_workers, pin_memory=True, collate_fn=collate_flatten)
         test_ds     = Lorenz96Dataset(root=root_test, seeds=range(1_000_000, 1_000_001), steps=50, observation=observation, block_size=1024, noise_std=noise_std, bias_factor=bias_factor)
@@ -128,7 +128,7 @@ def main():
         print(f"{dataset_name=}")
         dataset = "Kolmogorov"
         warmup_epochs = 0.05
-        train_ds = KolmogorovDataset(root=root, seeds=range(0, 30000), observation=observation, noise_std=noise_std, bias_factor=bias_factor, bias_seed=bias_seed)
+        train_ds = KolmogorovDataset(root=root, seeds=range(0, 1), observation=observation, noise_std=noise_std, bias_factor=bias_factor, bias_seed=bias_seed)
         print(f"{train_ds=}")
         loader = DataLoader(train_ds, batch_size=batch, shuffle=True, persistent_workers=True,
                                       num_workers=args.num_workers, pin_memory=True, collate_fn=collate_flatten)

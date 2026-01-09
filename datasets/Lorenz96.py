@@ -37,10 +37,7 @@ class Lorenz96Dataset(Dataset):
         # 40-D precomputed case still uses the bias file exactly as before.
         # In 4-D online mode we don't need it and we also avoid loading the file.
         if not self.generate_4d_online:
-            self.bias = torch.tensor(
-                np.load("training_data/Lorenz96/offset.npy"),
-                dtype=torch.float32,
-            )
+            self.bias = torch.zeros(40)
         else:
             self.bias = None
 

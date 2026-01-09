@@ -64,8 +64,8 @@ def main():
                    help="Batch index (one per Slurm job)")
     p.add_argument("--split", type=str, choices=["train", "test"],
                    help="Dataset split.  If omitted, index 1e6 ⇒ test else train")
-    p.add_argument("--root", type=pathlib.Path, default=pathlib.Path("training_data/Lorenz96"),
-                   help="Project data root (default: training_data/Lorenz96)")
+    p.add_argument("--root", type=pathlib.Path, default=pathlib.Path("training_data"),
+                   help="Project data root (default: training_data)")
     args = p.parse_args()
 
     split = args.split or ("test" if args.index == 1_000_000 else "train")
