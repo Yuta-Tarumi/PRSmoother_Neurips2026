@@ -29,6 +29,7 @@ $ python codes_datagen/Lorenz96_datagen.py --index "${INDEX}" --split train
 $ INDEX=1000000
 $ python codes_datagen/Lorenz96_datagen.py --index "${INDEX}" --split test
 ```
+noisy dynamics data can be generated similarly with `codes_datagen/Lorenz96_noisy_datagen.py`.
 
 ### Kolmogorov flow
 ```
