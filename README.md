@@ -1,6 +1,6 @@
 # Physics Rollout Smoother (PR-Smoother)
 
-This codebase reproduces the main experiments reported in our submitted manuscript, "PR-Smoother: Simulator-Preserving Non-Gaussian Smoothing for Data Assimilation".
+This codebase reproduces the main experiments reported in our submitted manuscript, "PR-Smoother: Simulator-Preserving Non-Gaussian Smoothing for Data Assimilation" (https://arxiv.org/abs/2609.26890). The work is accepted at Neurips 2026.
 
 ## Setup using a Python virtualenv
 
